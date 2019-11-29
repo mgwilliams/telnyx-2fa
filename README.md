@@ -15,28 +15,43 @@ An example heroku app utilizing [Telnyx's](https://telnyx.com) Call Control and 
 
 This application may be deployed to Heroku by following [this link](https://heroku.com/deploy), or clicking the button above.
 
+Heroku will prompt for an app name (`example-2fa` is used throughout this document) and values for the following environment variables:
+
+`TELNYX_API_KEY`: Telnyx APIv2 Key
+`TELNYX_API_TOKEN`: Telnyx APIv1 Token
+`TELNYX_CONNECTION_ID`: Telnyx connection ID (from Connection Details)
+`TELNYX_2FA_VOICE_ANI`: Number to display for voice calls (in e164 format -- e.g., `+15055551212`). Should be registered with Telnyx.
+`TELNYX_2FA_SMS_ANI`: Number to display for SMS messages (ine e164 format -- e.g., `+150555512121`). Must be registered & configured with Telnyx.
+`TELNYX_2FA_BASE_URL`: Base URL of app, inclluding trailing `/`. E.g., `https://example-2fa.herokuapp.com/`.
+`TELNYX_2FA_SMS_TOKEN_DIGITS`: Number of digits for SMS tokens. Default: 6
+`TELNYX_2FA_VOICE_TOKEN_DIGITS`: Number of digits for voice tokens. Default: 2
+`TELNYX_2FA_VOICE_PROMPT_DE_DE`: Example of a foreign language (German) prompt. Additional environment variables can be added to the app (after initial deployment) to support additional languages.
+`TELNYX_2FA_SMS_MESSAGE_DE_DE`: SMS notification message in German.
+
+The Telnyx Connection must be updated with the correct callback URL, e.g.: `https://example-2fa.herokuapp.com/events`.
+
 
 ## Using the API
 
-Once the app is deployed, it will be available at `app-name.herokuapp.com` (or a custom domain if configured).
+Once the app is deployed, it will be available at `example-2fa.herokuapp.com` (or a custom domain if configured).
 
 Note that phone numbers are transmitted in e164 format with a plus (for which the url encoded escape sequence is `%2B`).
 
 To authenticate a number, first obtain the voice & sms links:
 
 ```
-curl https://app-name.herokuapp.com/2fa?to=%2B15055551212
+curl https://example-2fa.herokuapp.com/2fa?to=%2B15055551212
 ```
 
 Example Response:
 ```
 {
   "sms": {
-    "url": "https://app-name.herokuapp.com/2fa/sms?to=%2B15055551212&token=123456&language=en-US",
+    "url": "https://example-2fa.herokuapp.com/2fa/sms?to=%2B15055551212&token=123456&language=en-US",
     "token": "123456"
   },
   "voice": {
-    "url": "https://app-name.herokuapp.com/2fa/voice?to=%2B15055551212&token=12&language=en-US",
+    "url": "https://example-2fa.herokuapp.com/2fa/voice?to=%2B15055551212&token=12&language=en-US",
     "token": "12"
   }
 }
@@ -46,7 +61,7 @@ The response will include a url for voice authentication. If the number can rece
 
 _To authenticate via voice,_ first display the token to the end user with instructions to enter it when prompted by the phone call, then access the voice URL:
 ```
-curl https://app-name.herokuapp.com/2fa/voice?to=%2B15055551212&token=12&language=en-US
+curl https://example-2fa.herokuapp.com/2fa/voice?to=%2B15055551212&token=12&language=en-US
 ```
 
 Example Responses:
