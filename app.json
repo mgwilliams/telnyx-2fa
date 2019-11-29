@@ -1,0 +1,47 @@
+{
+  "name": "Telnyx 2FA",
+  "description": "2FA API utilizing Telnyx's Voice & Messaging services",
+  "repository": "https://github.com/mgwilliams/telnyx-2fa",
+  "keywords": ["python", "2fa", "asyncio" ],
+  "env": {
+    "TELNYX_API_KEY": {
+      "description": "Telnyx API Key."
+    },
+    "TELNYX_API_TOKEN": {
+      "description": "Telnyx API token."
+    },
+    "TELNYX_CONNECTION_ID": {
+      "description": "Name of Telnyx connection."
+    },
+    "TELNYX_2FA_VOICE_ANI": {
+      "value": "+15055551212",
+      "description": "Number to display for voice calls. Should be registered with Telnyx."
+    },
+    "TELNYX_2FA_SMS_ANI": {
+      "value": "+15055551212",
+      "description": "Number to display for SMS messages. Must be registered & configured with Telnyx."
+    },
+    "TELNYX_2FA_BASE_URL": {
+      "value": "https://example-2fa.herokuapp.com/",
+      "description": "Base URL of heroku app, includeing trailing /."
+    },
+    "TELNYX_2FA_SMS_TOKEN_DIGITS": {
+      "value": "6",
+      "description": "Number of digits for SMS tokens."
+    }, 
+    "TELNYX_2FA_VOICE_TOKEN_DIGITS": {
+      "value": "2",
+      "description": "Number of digits for voice tokens."
+    },
+    "TELNYX_2FA_VOICE_PROMPT_DE_DE": {
+      "value": "Dies ist der von Ihnen angeforderte Bestätigungsaufruf. Bitte geben Sie jetzt den Bestätigungscode ein. Wenn Sie diesen Anruf nicht angefordert haben, legen Sie bitte auf.",
+      "description": "German prompt.",
+      "required": false
+    },
+    "TELNYX_2FA_SMS_MESSAGE_DE_DE": {
+      "value": "Zugangscode:",
+      "description": "German SMS message.",
+      "required": false
+    }
+  }
+}
