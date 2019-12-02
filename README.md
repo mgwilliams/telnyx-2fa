@@ -40,7 +40,7 @@ Note that phone numbers are transmitted in e164 format with a plus (for which th
 To authenticate a number, first obtain the voice & sms links:
 
 ```
-curl https://example-2fa.herokuapp.com/2fa?to=%2B15055551212
+curl "https://example-2fa.herokuapp.com/2fa?to=%2B15055551212"
 ```
 
 Example Response:
@@ -61,7 +61,7 @@ The response will include a url for voice authentication. If the number can rece
 
 _To authenticate via voice,_ first display the token to the end user with instructions to enter it when prompted by the phone call, then access the voice URL:
 ```
-curl https://example-2fa.herokuapp.com/2fa/voice?to=%2B15055551212&token=12&language=en-US
+curl "https://example-2fa.herokuapp.com/2fa/voice?to=%2B15055551212&token=12&language=en-US"
 ```
 
 Example Responses:
@@ -82,7 +82,7 @@ Failure:
 
 _To authenticate via sms,_ access the SMS URL, and display an input box to the end user:
 ```
-
+curl "https://example-2fa.herokuapp.com/2fa/sms?to=%2B15055551212&token=123456&language=en-US"
 ```
 
 Example Response:
