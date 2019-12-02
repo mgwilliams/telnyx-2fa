@@ -17,16 +17,16 @@ This application may be deployed to Heroku by following [this link](https://hero
 
 Heroku will prompt for an app name (`example-2fa` is used throughout this document) and values for the following environment variables:
 
-`TELNYX_API_KEY`: Telnyx APIv2 Key
-`TELNYX_API_TOKEN`: Telnyx APIv1 Token
-`TELNYX_CONNECTION_ID`: Telnyx connection ID (from Connection Details)
-`TELNYX_2FA_VOICE_ANI`: Number to display for voice calls (in e164 format -- e.g., `+15055551212`). Should be registered with Telnyx.
-`TELNYX_2FA_SMS_ANI`: Number to display for SMS messages (ine e164 format -- e.g., `+150555512121`). Must be registered & configured with Telnyx.
-`TELNYX_2FA_BASE_URL`: Base URL of app, inclluding trailing `/`. E.g., `https://example-2fa.herokuapp.com/`.
-`TELNYX_2FA_SMS_TOKEN_DIGITS`: Number of digits for SMS tokens. Default: 6
-`TELNYX_2FA_VOICE_TOKEN_DIGITS`: Number of digits for voice tokens. Default: 2
-`TELNYX_2FA_VOICE_PROMPT_DE_DE`: Example of a foreign language (German) prompt. Additional environment variables can be added to the app (after initial deployment) to support additional languages.
-`TELNYX_2FA_SMS_MESSAGE_DE_DE`: SMS notification message in German.
+- `TELNYX_API_KEY`: Telnyx APIv2 Key
+- `TELNYX_API_TOKEN`: Telnyx APIv1 Token
+- `TELNYX_CONNECTION_ID`: Telnyx connection ID (from Connection Details)
+- `TELNYX_2FA_VOICE_ANI`: Number to display for voice calls (in e164 format -- e.g., `+15055551212`). Should be registered with Telnyx.
+- `TELNYX_2FA_SMS_ANI`: Number to display for SMS messages (ine e164 format -- e.g., `+150555512121`). Must be registered & configured with Telnyx.
+- `TELNYX_2FA_BASE_URL`: Base URL of app, inclluding trailing `/`. E.g., `https://example-2fa.herokuapp.com/`.
+- `TELNYX_2FA_SMS_TOKEN_DIGITS`: Number of digits for SMS tokens. Default: 6
+- `TELNYX_2FA_VOICE_TOKEN_DIGITS`: Number of digits for voice tokens. Default: 2
+- `TELNYX_2FA_VOICE_PROMPT_DE_DE`: Example of a foreign language (German) prompt. Additional environment variables can be added to the app (after initial deployment) to support additional languages.
+- `TELNYX_2FA_SMS_MESSAGE_DE_DE`: SMS notification message in German.
 
 The Telnyx Connection must be updated with the correct callback URL, e.g.: `https://example-2fa.herokuapp.com/events`.
 
