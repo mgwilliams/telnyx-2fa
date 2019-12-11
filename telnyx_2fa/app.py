@@ -14,7 +14,7 @@ from telnyx_2fa import settings
 from telnyx_2fa.call_control import TwoFactorAuthCC
 
 
-telnyx.api_key = settings.API_KEY
+telnyx.api_key = settings.TELNYX_API_KEY
 telnyx.default_http_client = telnyx.aio.http_client.TelnyxClient()
 
 e164_re = re.compile('^\\+?[1-9]\\d{1,14}$')
@@ -41,7 +41,7 @@ class Telnyx2FApp:
 
     async def voice_2fa(self, to, token, uuid=None, language=settings.DEFAULT_LANGUAGE):
         call = await Call.create(from_=settings.VOICE_ANI, to=f'{to}',
-                                 connection_id=settings.CONNECTION_ID)
+                                 connection_id=settings.TELNYX_CONNECTION_ID)
         uuid = uuid or str(uuid4())
         sess = self.sessions[call.call_session_id] = \
             TwoFactorAuthCC(token=token,
