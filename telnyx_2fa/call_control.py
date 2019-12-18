@@ -99,7 +99,6 @@ class TwoFactorAuthCC(CallControlSession):
 
     async def on_call_answered(self, event, leg):
         self.state = 'CALL_ANSWERED'
-        # audio_url = settings.MEDIA_URL.format('verification.raw')
         v = f'VOICE_PROMPT_{self.language.upper().replace("-","_")}'
         text = settings.get(v, settings.DEFAULT_VOICE_PROMPT)
 

@@ -69,8 +69,9 @@ class WebhookHandler:
 
 
 def request_handler(f):
-    # decorator for request handlers
-    # TODO: Add authentication
+    """
+    decorator for request handlers
+    """
 
     def request_wrapper(self, request):
         api_key = request.headers.get('X-API-Key')
@@ -118,7 +119,7 @@ class RequestHandler:
 
     @request_handler
     async def handle_voice(self, request):
-        to = request.query['to'].replace('+', '%2B')
+        to = request.query['to']
         language = request.query.get('language', settings.DEFAULT_LANGUAGE)
         token = request.query.get('token')
         if not token:
@@ -152,7 +153,7 @@ class RequestHandler:
 
     @request_handler
     async def handle_sms(self, request):
-        to = request.query['to'].replace('+', '%2B')
+        to = request.query['to']
         language = request.query.get('language', settings.DEFAULT_LANGUAGE)
         token = request.query.get('token')
         if not token:
@@ -160,7 +161,7 @@ class RequestHandler:
 
         v = f'SMS_MESSAGE_{language.upper().replace("-","_")}'
         text = settings.get(v, settings.DEFAULT_SMS_MESSAGE) + ' ' + token
-        await Message.create(from_=settings.SMS_ANI, to=f'{to}',
+        await Message.create(from_=settings.SMS_ANI, to=to,
                              text=text)
         return web.json_response({'status': 'ok'})
 
@@ -179,8 +180,6 @@ def main():
                          requests.handle_voice, name='voice')
     app.router.add_route('GET', '/2fa/sms',
                          requests.handle_sms, name='sms')
-    # app.router.add_static('/audio', settings.AUDIO_FILES)
-    log.info(settings.PORT)
     web.run_app(app, host='0.0.0.0', port=settings.PORT)
 
 
