@@ -135,16 +135,24 @@ class RequestHandler:
                                               uuid=uuid)
         to_wait = [fut]
         success = False
+        err = None
 
         while True:
             done, to_wait = await asyncio.wait(to_wait, timeout=15)
             if done:
-                success = done.pop().result()
+                try:
+                    success = done.pop().result()
+                except telnyx.error.TelnyxError as e:
+                    err = e
                 break
             await _write_json(response, {'status': 'waiting', 'uuid': uuid})
 
         r = {'status': 'failure', 'uuid': uuid}
-        if success:
+        if err is not None:
+            r['status'] = 'error'
+            r['reason'] = f'Telnyx Error'
+            r['details'] = err.errors
+        elif success:
             r['status'] = 'success'
 
         await _write_json(response, r)

@@ -1,6 +1,7 @@
 import asyncio
 import json
 
+import aiohttp.web_exceptions
 import pytest
 from asynctest import patch, Mock, MagicMock, CoroutineMock
 
@@ -15,6 +16,7 @@ class MockSettings:
     DEFAULT_LANGUAGE = 'en-US'
     DEFAULT_SMS_MESSAGE = 'test'
     SMS_ANI = '18005551212'
+    API_KEY = 'foo'
     
     @staticmethod
     def get(attr, default):
@@ -63,6 +65,7 @@ async def test_handle_2fa():
     handler.is_mobile = CoroutineMock(return_value=True)
     request = Mock()
     request.query = {'to': '+15055551212'}
+    request.headers = {'X-API-Key': 'foo'}
     r = await handler.handle_2fa(request)
     response = json.loads(r.text)
     sms = response['sms']
@@ -82,8 +85,12 @@ async def test_handle_voice():
     mock_telnyx.voice_2fa = CoroutineMock(return_value=True)
     request.app = {'telnyx': mock_telnyx}
     request.query = {'to': '+15055551212', 'token': '22'}
+    request.headers = {'X-API-Key': 'foo'}
 
     mock_web = Mock()
+    mock_web.HTTPUnauthorized = aiohttp.web_exceptions.HTTPUnauthorized
+    mock_web.HTTPBadRequest = aiohttp.web_exceptions.HTTPBadRequest
+    mock_web.HTTPServerError = aiohttp.web_exceptions.HTTPServerError
     mock_response = Mock()
     mock_response.prepare = CoroutineMock()
     mock_response.write = CoroutineMock()
@@ -102,6 +109,7 @@ async def test_handle_sms():
     handler = RequestHandler()
     request = Mock()
     request.query = {'to': '+15055551212', 'token': '2222'}
+    request.headers = {'X-API-Key': 'foo'}
     mock_message = Mock()
     mock_message.create = CoroutineMock()
     with patch('telnyx_2fa.app.Message', mock_message):
