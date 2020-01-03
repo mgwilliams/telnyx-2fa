@@ -35,12 +35,16 @@ The Telnyx Connection must be updated with the correct callback URL, e.g.: `http
 
 Once the app is deployed, it will be available at `example-2fa.herokuapp.com` (or a custom domain if configured).
 
+You will need the auto-generated API-Key, which can be obtained by visiting `https://dashboard.heroku.com/apps/example-2fa/settings`
+and selecting "Reveal Config Vars".
+
 Note that phone numbers are transmitted in e164 format with a plus (for which the url encoded escape sequence is `%2B`).
 
 To authenticate a number, first obtain the voice & sms links:
 
 ```
-curl "https://example-2fa.herokuapp.com/2fa?to=%2B15055551212"
+API_KEY={auto-generated api key}
+curl -H "X-API-Key: $API_KEY" "https://example-2fa.herokuapp.com/2fa?to=%2B15055551212"
 ```
 
 Example Response:
@@ -61,28 +65,38 @@ The response will include a url for voice authentication. If the number can rece
 
 _To authenticate via voice,_ first display the token to the end user with instructions to enter it when prompted by the phone call, then access the voice URL:
 ```
-curl "https://example-2fa.herokuapp.com/2fa/voice?to=%2B15055551212&token=12&language=en-US"
+curl -H "X-API-Key: $API_KEY" "https://example-2fa.herokuapp.com/2fa/voice?to=%2B15055551212&token=12&language=en-US"
 ```
 
 Example Responses:
 
-Success:
+Successful Authentication:
 ```
 {"status": "waiting", "uuid": "9959b1d8-ec4a-41e1-a459-0b5fa9892824"}
+...
 {"status": "success", "uuid": "9959b1d8-ec4a-41e1-a459-0b5fa9892824"}
 ```
 
-Failure:
+Failed Authentication:
 ```
 {"status": "waiting", "uuid": "e964dbd9-c9ba-42f3-9ee6-0d394501010d"}
+...
 {"status": "failure", "uuid": "e964dbd9-c9ba-42f3-9ee6-0d394501010d"}
 ```
+
+Server Failure:
+```
+{"status": "waiting", "uuid": "e964dbd9-c9ba-42f3-9ee6-0d394501010d"}
+...
+{"status": "error", "details": [...], "uuid": "e964dbd9-c9ba-42f3-9ee6-0d394501010d"}
+```
+
 
 *Note that multiple "waiting" status lines may be received before receiving "success" or "failure".*
 
 _To authenticate via sms,_ access the SMS URL, and display an input box to the end user:
 ```
-curl "https://example-2fa.herokuapp.com/2fa/sms?to=%2B15055551212&token=123456&language=en-US"
+curl -H "X-API-Key: $API_KEY" "https://example-2fa.herokuapp.com/2fa/sms?to=%2B15055551212&token=123456&language=en-US"
 ```
 
 Example Response:
