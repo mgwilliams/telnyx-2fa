@@ -43,5 +43,6 @@
     "API_KEY": {
       "description": "Key to access the 2FA service.",
       "generator": "secret"
+    }
   }
 }
