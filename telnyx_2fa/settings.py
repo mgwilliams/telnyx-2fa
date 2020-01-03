@@ -14,6 +14,8 @@ DEFAULT_VOICE_PROMPT = os.environ.get('DEFAULT_VOICE_PROMPT',
                                        'verification code now. If you did '
                                        'not request this call, please '
                                        'hang up.'))
+DEFAULT_VOICE_SUCCESS = os.environ.get('DEFAULT_VOICE_SUCCESS', 'Thank you!')
+DEFAULT_VOICE_FAILURE = os.environ.get('DEFAULT_VOICE_FAILURE', 'Goodbye!')
 DEFAULT_SMS_MESSAGE = os.environ.get('DEFAULT_SMS_MESSAGE',
                                      'Authorization Code:')
 VOICE_ANI = os.environ['VOICE_ANI']

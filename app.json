@@ -35,6 +35,16 @@
       "description": "German prompt.",
       "required": false
     },
+    "VOICE_SUCCESS_DE_DE": {
+      "value": "Danke!",
+      "description": "German success message.",
+      "required": false
+    },
+    "VOICE_FAILURE_DE_DE": {
+      "value": "Wiedersehen!",
+      "description": "German failure message.",
+      "required": false
+    },
     "SMS_MESSAGE_DE_DE": {
       "value": "Zugangscode:",
       "description": "German SMS message.",

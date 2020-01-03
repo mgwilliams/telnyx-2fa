@@ -110,8 +110,18 @@ class TwoFactorAuthCC(CallControlSession):
                                         maximum_digits=len(self.token),
                                         maximum_tries=settings.VOICE_REPEAT_PROMPT,
                                         timeout_millis=settings.VOICE_TIMEOUT*1000)
-        asyncio.ensure_future(leg.hangup())
+
         success = status == 'valid' and user_input == self.token
+
+        if success:
+            text = settings.get(f'VOICE_SUCCESS_{self.language.upper().replace("-","_")}',
+                                settings.DEFAULT_VOICE_SUCCESS)
+        else:
+            text = settings.get(f'VOICE_FAILURE_{self.language.upper().replace("-","_")}',
+                                settings.DEFAULT_VOICE_FAILURE)
+        await leg.speak(payload=text, language=self.language,
+                        voice=settings.VOICE)
+        asyncio.ensure_future(leg.hangup())
         self.result.set_result(success)
 
     async def on_call_hangup(self, event, leg):
