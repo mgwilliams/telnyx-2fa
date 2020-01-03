@@ -28,7 +28,7 @@ Heroku will prompt for an app name (`example-2fa` is used throughout this docume
 - `VOICE_PROMPT_DE_DE`: Example of a foreign language (German) prompt. Additional environment variables can be added to the app (after initial deployment) to support additional languages.
 - `SMS_MESSAGE_DE_DE`: SMS notification message in German.
 
-The Telnyx Connection must be updated with the correct callback URL, e.g.: `https://example-2fa.herokuapp.com/events`.
+The Telnyx Connection must be updated with the correct callback URL, e.g.: `https://example-2fa.herokuapp.com/event`.
 
 
 ## Using the API
