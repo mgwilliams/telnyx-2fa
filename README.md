@@ -26,9 +26,11 @@ Heroku will prompt for an app name (`example-2fa` is used throughout this docume
 - `SMS_TOKEN_DIGITS`: Number of digits for SMS tokens. Default: 6
 - `VOICE_TOKEN_DIGITS`: Number of digits for voice tokens. Default: 2
 - `VOICE_PROMPT_DE_DE`: Example of a foreign language (German) prompt. Additional environment variables can be added to the app (after initial deployment) to support additional languages.
+- `VOICE_SUCCESS_DE_DE`: Example of a foreign language (German) success message. Additional environment variables can be added to the app (after initial deployment) to support additional languages.
+- `VOICE_FAILURE_DE_DE`: Example of a foreign language (German) success message. Additional environment variables can be added to the app (after initial deployment) to support additional languages.
 - `SMS_MESSAGE_DE_DE`: SMS notification message in German.
 
-The Telnyx Connection must be updated with the correct callback URL, e.g.: `https://example-2fa.herokuapp.com/event`.
+The Telnyx Connection must be updated with the correct V1 callback URL, e.g.: `https://example-2fa.herokuapp.com/event`.
 
 
 ## Using the API
