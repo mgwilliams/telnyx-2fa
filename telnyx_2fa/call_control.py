@@ -34,6 +34,10 @@ class Leg:
         e = await self.wait_for_event('gather_ended')
         return e.get('digits'), e.get('status')
 
+    async def wait_speak(self, *args, **kwargs):
+        await self.speak(*args, **kwargs)
+        e = await self.wait_for_event('speak_ended')
+
 
 class CallControlSession:
     def __init__(self, api_key=None):
@@ -119,8 +123,8 @@ class TwoFactorAuthCC(CallControlSession):
         else:
             text = settings.get(f'VOICE_FAILURE_{self.language.upper().replace("-","_")}',
                                 settings.DEFAULT_VOICE_FAILURE)
-        await leg.speak(payload=text, language=self.language,
-                        voice=settings.VOICE)
+        await leg.wait_speak(payload=text, language=self.language,
+                             voice=settings.VOICE)
         asyncio.ensure_future(leg.hangup())
         self.result.set_result(success)
 
