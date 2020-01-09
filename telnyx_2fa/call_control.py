@@ -8,6 +8,10 @@ from telnyx.aio import Call
 from telnyx_2fa import settings
 
 
+class HangupException(Exception):
+    pass
+
+
 class Leg:
     def __init__(self, call=None):
         self._waiting = defaultdict(list)
@@ -82,6 +86,11 @@ class CallControlSession:
             else:
                 raise Exception(f'no callback: {event}')
 
+    async def on_call_hangup(self, event, leg):
+        for _, futures in self._waiting:
+            for f in futures:
+                f.set_exception(HangupException())
+
 
 class TwoFactorAuthCC(CallControlSession):
     state = None
@@ -128,8 +137,6 @@ class TwoFactorAuthCC(CallControlSession):
         asyncio.ensure_future(leg.hangup())
         self.result.set_result(success)
 
-    async def on_call_hangup(self, event, leg):
-        self.state = 'DISCONNECTED'
-
     async def on_unknown(self, event, leg):
+        # ignore unknown events
         pass
