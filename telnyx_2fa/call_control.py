@@ -75,7 +75,7 @@ class CallControlSession:
                 except IndexError:
                     break
         else:
-            f = getattr(self, f"on_{event_type.replace('.', '_'}",
+            f = getattr(self, f"on_{event_type.replace('.', '_')}",
                         getattr(self, 'on_unknown', None))
             if f:
                 asyncio.ensure_future(f(event, leg))
