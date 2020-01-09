@@ -128,10 +128,10 @@ class TwoFactorAuthCC(CallControlSession):
                                         timeout_millis=settings.VOICE_TIMEOUT*1000)
 
         success = status == 'valid' and user_input == self.token
-        self.result.set_result(success)
 
         if self.state == 'DISCONNECTED':
             # caller hung up
+            self.result.set_result(success)
             return
         elif success:
             text = settings.get(f'VOICE_SUCCESS_{self.language.upper().replace("-","_")}',
@@ -142,6 +142,7 @@ class TwoFactorAuthCC(CallControlSession):
         await leg.wait_speak(payload=text, language=self.language,
                              voice=settings.VOICE)
         asyncio.ensure_future(leg.hangup())
+        self.result.set_result(success)
 
     async def on_call_hangup(self, event, leg):
         self.state = 'DISCONNECTED'

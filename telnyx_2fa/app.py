@@ -36,7 +36,7 @@ class Telnyx2FApp:
         session = self.sessions.get(session_id)
         if session is None:
             log.error(f'Unknown session: {session_id}')
-            raise web.HTTPBadRequest()
+            raise web.HTTPNotFound()
         return session.handle_event(event_type, event)
 
     async def voice_2fa(self, to, token, uuid=None, language=settings.DEFAULT_LANGUAGE):
