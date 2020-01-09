@@ -36,7 +36,7 @@ class Leg:
 
     async def wait_speak(self, *args, **kwargs):
         await self.speak(*args, **kwargs)
-        e = await self.wait_for_event('speak_ended')
+        e = await self.wait_for_event('call.speak.ended')
 
 
 class CallControlSession:
