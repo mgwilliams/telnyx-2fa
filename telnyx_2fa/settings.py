@@ -19,7 +19,7 @@ DEFAULT_VOICE_FAILURE = os.environ.get('DEFAULT_VOICE_FAILURE', 'Goodbye!')
 DEFAULT_SMS_MESSAGE = os.environ.get('DEFAULT_SMS_MESSAGE',
                                      'Authorization Code:')
 VOICE_ANI = os.environ['VOICE_ANI']
-VOICE_TIMEOUT = int(os.environ.get('VOICE_TIMEOUT', 30))
+VOICE_TIMEOUT = int(os.environ.get('VOICE_TIMEOUT', 10))
 VOICE_REPEAT_PROMPT = int(os.environ.get('VOICE_REPEAT_PROMPT', 3))
 SMS_ANI = os.environ['SMS_ANI']
 VOICE_TOKEN_DIGITS = int(os.environ.get('VOICE_TOKEN_DIGITS', 2))
