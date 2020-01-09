@@ -90,7 +90,7 @@ class CallControlSession:
                 raise Exception(f'no callback: {event}')
 
     async def on_call_hangup(self, event, leg):
-        for _, futures in self._waiting:
+        for _, futures in leg._waiting:
             for f in futures:
                 f.set_exception(HangupException())
 
