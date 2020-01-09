@@ -60,7 +60,7 @@ class WebhookHandler:
 
     async def handle_event(self, request):
         data = (await request.json()).get('data')
-        event_type = data['event_type'].replace('.', '_')
+        event_type = data['event_type']
         payload = data['payload']
         event = convert_to_telnyx_object(payload)
         sess_id = payload['call_session_id']

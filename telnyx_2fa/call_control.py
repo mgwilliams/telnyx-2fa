@@ -31,7 +31,7 @@ class Leg:
 
     async def wait_gather_using_speak(self, *args, **kwargs):
         await self.gather_using_speak(*args, **kwargs)
-        e = await self.wait_for_event('gather_ended')
+        e = await self.wait_for_event('call.gather.ended')
         return e.get('digits'), e.get('status')
 
     async def wait_speak(self, *args, **kwargs):
@@ -75,7 +75,7 @@ class CallControlSession:
                 except IndexError:
                     break
         else:
-            f = getattr(self, f'on_{event_type}',
+            f = getattr(self, f"on_{event_type.replace('.', '_'}",
                         getattr(self, 'on_unknown', None))
             if f:
                 asyncio.ensure_future(f(event, leg))
