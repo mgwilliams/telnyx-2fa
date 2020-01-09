@@ -35,7 +35,10 @@ class Leg:
 
     async def wait_gather_using_speak(self, *args, **kwargs):
         await self.gather_using_speak(*args, **kwargs)
-        e = await self.wait_for_event('call.gather.ended')
+        try:
+            e = await self.wait_for_event('call.gather.ended')
+        except HangupException:
+            return None, None
         return e.get('digits'), e.get('status')
 
     async def wait_speak(self, *args, **kwargs):
