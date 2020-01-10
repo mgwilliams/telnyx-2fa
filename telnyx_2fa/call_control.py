@@ -89,11 +89,6 @@ class CallControlSession:
             else:
                 raise Exception(f'no callback: {event}')
 
-    async def on_call_hangup(self, event, leg):
-        for _, futures in leg._waiting.items():
-            for f in futures:
-                f.set_exception(HangupException())
-
 
 class TwoFactorAuthCC(CallControlSession):
     state = None
@@ -128,24 +123,21 @@ class TwoFactorAuthCC(CallControlSession):
                                         timeout_millis=settings.VOICE_TIMEOUT*1000)
 
         success = status == 'valid' and user_input == self.token
-        self.result.set_result(success)
 
-        if self.state == 'DISCONNECTED':
-            # caller hung up
-            return
-        elif success:
+        if success:
             text = settings.get(f'VOICE_SUCCESS_{self.language.upper().replace("-","_")}',
                                 settings.DEFAULT_VOICE_SUCCESS)
         else:
             text = settings.get(f'VOICE_FAILURE_{self.language.upper().replace("-","_")}',
                                 settings.DEFAULT_VOICE_FAILURE)
-        await leg.wait_speak(payload=text, language=self.language,
-                             voice=settings.VOICE)
-        asyncio.ensure_future(leg.hangup())
+        try:
+            await leg.wait_speak(payload=text, language=self.language,
+                                 voice=settings.VOICE)
+            await leg.hangup()
+        except telnyx.error.TelnyxError:
+            pass
 
-    async def on_call_hangup(self, event, leg):
-        self.state = 'DISCONNECTED'
-        await CallControlSession.on_call_hangup(self, event, leg)
+        self.result.set_result(success)
 
     async def on_unknown(self, event, leg):
         # ignore unknown events

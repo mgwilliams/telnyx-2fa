@@ -39,7 +39,7 @@ async def test_leg_gather():
      f2 = leg.wait_gather_using_speak()
      t = asyncio.ensure_future(f2)
      await asyncio.sleep(0.1)
-     leg._waiting['gather_ended'][0].set_result({'digits': '1', 'status': 'success'})
+     leg._waiting['call.gather.ended'][0].set_result({'digits': '1', 'status': 'success'})
      await asyncio.sleep(0.1)
      digits, status = t.result()
      assert digits == '1'
