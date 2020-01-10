@@ -35,7 +35,7 @@ class Telnyx2FApp:
     def handle_cc_event(self, session_id, event_type, event):
         session = self.sessions.get(session_id)
         if session is None:
-            log.error(f'Unknown session: {session_id}')
+            log.debug(f'Unknown session: {session_id}')
             raise web.HTTPBadRequest()
         return session.handle_event(event_type, event)
 
