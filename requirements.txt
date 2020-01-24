@@ -1,2 +1,1 @@
 aiohttp
-https://github.com/mgwilliams/telnyx-python/archive/aio.zip#egg=telnyx

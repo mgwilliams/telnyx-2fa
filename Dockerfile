@@ -9,7 +9,7 @@ RUN pip install -I -U pip setuptools wheel
 COPY . /$APP
 
 RUN pip install -r requirements.txt
-RUN pip install .
+RUN pip install . ./telnyx-python
 
 EXPOSE 80
 
