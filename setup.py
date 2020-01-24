@@ -5,5 +5,5 @@ setup(
     description='Telnyx Two Factor Authentication Service',
     packages=find_packages('.'),
     #package_dir={'': ''},
-    install_requires=['telnyx']
+    #install_requires=['telnyx']
 )

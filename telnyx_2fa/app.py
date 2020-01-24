@@ -78,7 +78,7 @@ def request_handler(f):
         if api_key != settings.API_KEY:
             raise web.HTTPUnauthorized()
         if 'to' not in request.query or not e164_re.match(request.query['to']):
-            raise web.HTTPBadRequest('To parameter must be in e164 format.')
+            raise web.HTTPBadRequest(body='{"error": "To parameter must be in e164 format."}')
         return f(self, request)
     return request_wrapper
 
@@ -123,7 +123,7 @@ class RequestHandler:
         language = request.query.get('language', settings.DEFAULT_LANGUAGE)
         token = request.query.get('token')
         if not token:
-            raise web.HTTPBadRequest('Missing token parameter.')
+            raise web.HTTPBadRequest(body='{"error": "Missing token parameter."}')
 
         uuid = str(uuid4())
         response = web.StreamResponse()
@@ -165,7 +165,7 @@ class RequestHandler:
         language = request.query.get('language', settings.DEFAULT_LANGUAGE)
         token = request.query.get('token')
         if not token:
-            raise web.HTTPBadRequest('Missing token parameter.')
+            raise web.HTTPBadRequest(body='{"error": "Missing token parameter."}')
 
         v = f'SMS_MESSAGE_{language.upper().replace("-","_")}'
         text = settings.get(v, settings.DEFAULT_SMS_MESSAGE) + ' ' + token
